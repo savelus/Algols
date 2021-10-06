@@ -36,6 +36,16 @@ namespace Algols
             }
             return matrix;
         }
+
+        private static string CreateString (int length)
+        {
+            string line = "";
+            for (int i = 1; i < length; i++)
+            {
+                line += 'a';
+            }
+            return line;
+        }
         public static void Main(string[] args)
         {
 
@@ -45,14 +55,35 @@ namespace Algols
                 List<int> timeResults = new List<int>();
                 for (int i = 0; i < 500; i++)
                 {
-                    //var vector = CreateVector(i);
-                    int[,] matrix1 = CreateMatrix(i, i);
-                    int[,] matrix2 = CreateMatrix(i, i);
-                    Watch.Reset();
-                    Watch.Start();    
-                    double x = algorithms.MultiplyMatrix(matrix1, matrix2);
-                    Watch.Stop();
-                    timeResults.Add((int)Watch.ElapsedTicks);
+                    List<int> tempRes = new List<int>();
+                    for (int j = 0; j < 5; j++)
+                    {
+
+                        //var vector = CreateVector(i);
+                        int[,] matrix1 = CreateMatrix(i, i);
+                        int[,] matrix2 = CreateMatrix(i, i);
+                        Watch.Reset();
+                        Watch.Start();
+
+                        //algorithms.ConstantFunction(vector);
+                        //algorithms.SumOfElements(vector);
+                        //algorithms.ProductOfElements(vector);
+                        //algorithms.StandartCalculatePolynomial(vector);
+                        //algorithms.GornerCalculatePolynomial(vector.ToList<int>());
+                        //algorithms.BubbleSort(vector);
+                        //algorithms.QuickSort(vector);
+                        //algorithms.TimSort(vector, vector.Length);
+                        //algorithms.ElevateSimple(i, 2);
+                        //algorithms.ElevateRec(i, 2);
+                        //double x = algorithms.MultiplyMatrix(matrix1, matrix2);
+                        var line = CreateString(i);
+                        var line2 = CreateString(i - 1);
+                        bool _ = algorithms.SearchSubstring(line, line2);
+                        Watch.Stop();
+                        tempRes.Add((int)Watch.ElapsedTicks);
+                    }
+                    timeResults.Add(tempRes.Min());
+
                 }
                 timeResultsList[k] = timeResults;
             }
@@ -69,6 +100,15 @@ namespace Algols
                     {
                         endVector[i] = timeResultsList[j][i];
                     }
+                }
+            }
+            for (int j = 0; j < 2; j++)
+            {
+
+                for (int i = 2 + j; i < endVector.Length - 2; i++)
+                {
+                    if (endVector[i] != 0 && (endVector[i] * 1.8 < endVector[i + 2] || endVector[i] / 1.8 > endVector[i + 2]))
+                        endVector[i + 2] = (endVector[i + 1] / endVector[i]) * endVector[i + 1];
                 }
             }
             return endVector.ToList();
